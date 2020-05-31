@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: Convert-Currency
+    
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

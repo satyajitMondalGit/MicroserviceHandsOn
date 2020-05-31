@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: Conversion-Factor
+    
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
