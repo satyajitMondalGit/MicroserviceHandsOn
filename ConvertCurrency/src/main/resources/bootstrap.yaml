@@ -1,7 +1,12 @@
 spring:
   application:
     name: Convert-Currency
-    
+
+  cloud:
+    config:
+      uri:
+      - http://localhost:9091    
+      
 management:
   endpoints:
     web:

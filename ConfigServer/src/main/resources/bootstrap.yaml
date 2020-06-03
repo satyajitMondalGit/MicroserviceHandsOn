@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: Config-Server
+    
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
