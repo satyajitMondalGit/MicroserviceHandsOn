@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: user-authentication-jwt
+      cloud:    config:      uri:      - http://localhost:9091
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
