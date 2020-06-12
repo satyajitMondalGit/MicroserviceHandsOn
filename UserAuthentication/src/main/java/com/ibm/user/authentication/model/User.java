@@ -11,7 +11,6 @@ import javax.persistence.Table;
 public class User {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	
 	private String user;
@@ -38,6 +37,19 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", user=" + user + ", pass=" + pass + ", role=" + role + "]";
+	}
+	
+	public User() {
+		super();
+	}
+	public User(int id, String user, String pass, String role2) {
+		
+		super();
+		this.id = id;
+		this.user = user;
+		this.pass = pass;
+		this.role = role2;
+		// TODO Auto-generated constructor stub
 	}
 	
 	
