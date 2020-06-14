@@ -16,6 +16,28 @@ public class User {
 	private String user;
 	private String pass;
 	private String role;
+	private String AuthKey;
+	private String TransacKey;
+	
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getAuthKey() {
+		return AuthKey;
+	}
+	public void setAuthKey(String authKey) {
+		AuthKey = authKey;
+	}
+	public String getTransacKey() {
+		return TransacKey;
+	}
+	public void setTransacKey(String transacKey) {
+		TransacKey = transacKey;
+	}
 	public String getUser() {
 		return user;
 	}
@@ -50,6 +72,15 @@ public class User {
 		this.pass = pass;
 		this.role = role2;
 		// TODO Auto-generated constructor stub
+	}
+	public User(int id, String user, String pass, String role, String authKey, String transacKey) {
+		super();
+		this.id = id;
+		this.user = user;
+		this.pass = pass;
+		this.role = role;
+		AuthKey = authKey;
+		TransacKey = transacKey;
 	}
 	
 	

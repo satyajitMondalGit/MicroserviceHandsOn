@@ -1,0 +1,14 @@
+server:
+  port: 8084
+
+spring:  h2:    console:      enabled: true    
+      
+ 
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${random.int}
+    lease-expiration-duration-in-seconds: 2
+    lease-renewal-interval-in-seconds: 1
+  client:
+    service-url:
+      defaultZone: http://localhost:9090/eureka  
