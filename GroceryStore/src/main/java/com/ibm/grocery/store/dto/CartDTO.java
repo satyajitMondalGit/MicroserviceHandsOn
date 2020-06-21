@@ -1,4 +1,4 @@
-package com.ibm.order.management.dto;
+package com.ibm.grocery.store.dto;
 
 public class CartDTO {
 	
@@ -44,12 +44,5 @@ public class CartDTO {
 	public void setStatus(boolean status) {
 		this.status = status;
 	}
-	@Override
-	public String toString() {
-		return "CartDTO [id=" + id + ", userName=" + userName + ", productName=" + productName + ", catagory="
-				+ catagory + ", price=" + price + ", status=" + status + "]";
-	}
-	
-	
 	
 }

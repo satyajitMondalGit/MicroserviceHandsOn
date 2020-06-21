@@ -2,16 +2,16 @@ package com.ibm.cart.management.dto;
 
 public class CartDTO {
 	
-	private long id;
+	private int id;
 	private String userName;
 	private String productName;
 	private String catagory;
 	private double price;
 	private boolean status;
-	public long getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	public String getUserName() {

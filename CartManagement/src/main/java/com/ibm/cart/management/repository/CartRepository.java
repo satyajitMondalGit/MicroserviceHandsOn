@@ -9,6 +9,9 @@ import com.ibm.cart.management.model.Cart;
 
 public interface CartRepository extends JpaRepository<Cart, Integer> {
 
-	@Query(value = "SELECT p FROM Cart p Where p.userName = userName")
-	List<Cart> findByUserName(String userName);
+	@Query("SELECT c FROM Cart c WHERE c.userName = ?1")
+	List<Cart> findByUserName(String username);
+	
+	@Query("SELECT c FROM Cart c WHERE c.userName = ?1 and c.productName = ?2")
+	List<Cart> findByUserNameandProductName(String username, String pname);
 }

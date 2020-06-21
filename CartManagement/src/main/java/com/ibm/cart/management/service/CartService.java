@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ibm.cart.management.config.OrderFeignRepository;
 import com.ibm.cart.management.dto.CartDTO;
 import com.ibm.cart.management.dto.CartMapper;
 import com.ibm.cart.management.model.Cart;
@@ -14,8 +15,13 @@ import com.ibm.cart.management.repository.CartRepository;
 @Service
 public class CartService {
 	
+	private String username = "user";
+	
 	@Autowired
 	private CartRepository cartRepo;
+	
+	@Autowired
+	private OrderFeignRepository orderFeignRepo;
 	
 	public List<CartDTO> addItemToOrder(CartDTO dto) {
 		
@@ -95,6 +101,63 @@ public class CartService {
 		
 		
 		return isSucces;
+	}
+
+	public List<CartDTO> viewCartforUser() {
+		List<CartDTO> list_cdto = new ArrayList<CartDTO>();
+		if(username !=null) {
+			List<Cart> list_cart = cartRepo.findByUserName(username);
+			if(list_cart!=null && list_cart.size()>0) {
+				for(Cart c :list_cart) {
+					CartMapper mapper = new CartMapper();
+					CartDTO cdto = mapper.convertCartToDTO(c);
+					list_cdto.add(cdto);
+				}
+			}
+		}
+		return list_cdto;
+	}
+
+	
+
+	public List<CartDTO> deleteProductByName(String pname) {
+		List<CartDTO> list_cdto = new ArrayList<CartDTO>();
+		if(username !=null && pname !=null) {
+			List<Cart> list_cartToDelete= cartRepo.findByUserNameandProductName(username, pname);
+			if(list_cartToDelete !=null && list_cartToDelete.size()>0) {
+				for(Cart c:list_cartToDelete) {
+					cartRepo.deleteById(c.getId());
+				}
+			}
+			
+			list_cdto = viewCartforUser();
+		}
+		return list_cdto;
+	}
+
+	public boolean placeOrder() {
+		boolean status= false;
+		List<CartDTO> list_cdto = new ArrayList<CartDTO>();
+		if(username !=null) {
+			List<Cart> list_cart = cartRepo.findByUserName(username);
+			if(list_cart!=null && list_cart.size()>0) {
+				for(Cart c :list_cart) {
+					CartMapper mapper = new CartMapper();
+					CartDTO cdto = mapper.convertCartToDTO(c);
+					list_cdto.add(cdto);
+					cartRepo.deleteById(c.getId());
+				}
+			}
+		}
+		
+		if(list_cdto !=null && list_cdto.size()>0 ) {
+		
+			status = orderFeignRepo.addOrder(list_cdto);
+			
+		}
+		
+		
+		return status;
 	}
 
 

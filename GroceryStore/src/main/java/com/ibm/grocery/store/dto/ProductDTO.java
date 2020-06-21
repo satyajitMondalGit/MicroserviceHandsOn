@@ -3,15 +3,15 @@ package com.ibm.grocery.store.dto;
 
 public class ProductDTO {
 
-	private long id;
+	private int id;
 	private String name;
 	private String category;
 	private Double price;
 	private Double discount;
-	public long getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	public String getName() {

@@ -9,8 +9,8 @@ CREATE TABLE Product (
 );
 
 
-INSERT INTO Product (name, category, price, discount) VALUES ('Apple', 'Mobile', 80000, 20 );
-INSERT INTO Product (name, category, price, discount) VALUES ('Samsung', 'Mobile', 25000 , 25 );
-INSERT INTO Product (name, category, price, discount) VALUES ('Shirt', 'Cloth', 2000 , 30 );
-INSERT INTO Product (name, category, price, discount) VALUES ('Jeans', 'Cloth', 3000 , 40 );
+INSERT INTO Product (name, category, price, discount) VALUES ('apple', 'mobile', 80000, 20 );
+INSERT INTO Product (name, category, price, discount) VALUES ('samsung', 'mobile', 25000 , 25 );
+INSERT INTO Product (name, category, price, discount) VALUES ('shirt', 'cloth', 2000 , 30 );
+INSERT INTO Product (name, category, price, discount) VALUES ('jeans', 'cloth', 3000 , 40 );
   
