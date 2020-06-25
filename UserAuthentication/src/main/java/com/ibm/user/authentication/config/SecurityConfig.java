@@ -30,26 +30,31 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 
+		System.out.println("SecurityConfig -- 1");
 		auth.userDetailsService(userService);
 	}
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
+		System.out.println("SecurityConfig -- 2");
 		return NoOpPasswordEncoder.getInstance();
 	}
 
 	@Override
 	@Bean(name = BeanIds.AUTHENTICATION_MANAGER)
 	public AuthenticationManager authenticationManagerBean() throws Exception {
+		System.out.println("SecurityConfig -- 3");
 		return super.authenticationManagerBean();
 	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		System.out.println("SecurityConfig -- 4");
 		http.csrf().disable().authorizeRequests().antMatchers("/authenticate").permitAll().anyRequest().authenticated()
 				.and().exceptionHandling().and().sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		System.out.println("SecurityConfig -- 5");
 		http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-		;
+		
 	}
 }

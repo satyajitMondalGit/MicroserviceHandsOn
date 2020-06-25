@@ -1,9 +1,0 @@
-spring:
-  application:
-    name: Currency-Conversion-Factor
-    
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"

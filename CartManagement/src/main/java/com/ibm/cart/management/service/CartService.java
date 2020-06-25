@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
 import com.ibm.cart.management.config.OrderFeignRepository;
+import com.ibm.cart.management.config.UserFeignRepository;
 import com.ibm.cart.management.dto.CartDTO;
 import com.ibm.cart.management.dto.CartMapper;
 import com.ibm.cart.management.model.Cart;
@@ -22,6 +24,9 @@ public class CartService {
 	
 	@Autowired
 	private OrderFeignRepository orderFeignRepo;
+	
+	@Autowired
+	private UserFeignRepository userFeignRepo;
 	
 	public List<CartDTO> addItemToOrder(CartDTO dto) {
 		
@@ -115,6 +120,7 @@ public class CartService {
 				}
 			}
 		}
+		
 		return list_cdto;
 	}
 

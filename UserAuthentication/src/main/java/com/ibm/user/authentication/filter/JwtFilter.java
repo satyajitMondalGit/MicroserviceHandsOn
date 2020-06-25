@@ -45,15 +45,17 @@ public class JwtFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		System.out.println("JwtFilter -- 1");
 		final String authorizationHeader = request.getHeader("Authorization");
 
+		System.out.println(" header "+authorizationHeader);
 		String userName = null;
 		String jwtToken = null;
 
 		if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
 			jwtToken = authorizationHeader.substring(7);
 			userName = jwtUtil.extractUsername(jwtToken);
-
+			System.out.println("JwtFilter -- 2");
 			// bellow part is added for select key from database
 			User user = repository.findByUser(userName);
 
@@ -74,24 +76,26 @@ public class JwtFilter extends OncePerRequestFilter {
 		} else if (authorizationHeader != null && authorizationHeader.startsWith("Transac ")) {
 			jwtToken = authorizationHeader.substring(8);
 			userName = jwtUtil.extractUsername(jwtToken);
-
+			System.out.println("JwtFilter -- 3");
 		}
 
 		if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 			UserDetails userDetails = service.loadUserByUsername(userName);
-
+			System.out.println("JwtFilter -- 4");
 			if (jwtUtil.validateToken(jwtToken, userDetails)) {
-
+				System.out.println("JwtFilter -- 5");
 				UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
 						userDetails, null, userDetails.getAuthorities());
 				usernamePasswordAuthenticationToken
 						.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+				System.out.println("JwtFilter -- 6");
 				SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 			}
 		}
 
+		System.out.println("JwtFilter -- 7");
 		filterChain.doFilter(request, response);
-
+		System.out.println("JwtFilter -- 8");
 	}
 
 }

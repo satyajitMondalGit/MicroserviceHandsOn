@@ -5,11 +5,13 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -42,15 +44,18 @@ public class UserController {
 
 	@GetMapping("/welcome")
 	public String welcomeCOntroller() {
-
+		System.out.println("UserController -- 2");
 		return "Welcome to spring Security";
 	}
 
 	@PostMapping("/authenticate")
 	public String generateAuthenticationToken(@RequestBody UserAuthentication authRequest) throws Exception {
+		System.out.println(" "+authRequest.getUserName()+" "+authRequest.getPassword());
+		System.out.println("UserController -- 3");
 		try {
 			authenticationManager.authenticate(
 					new UsernamePasswordAuthenticationToken(authRequest.getUserName(), authRequest.getPassword()));
+			System.out.println("UserController -- 4");
 		} catch (Exception ex) {
 			throw new Exception("inavalid username/password");
 		}
@@ -63,13 +68,13 @@ public class UserController {
 			throw new Exception("DB is not responding");
 		}
 
-		return jwtUtil.generateToken(authRequest.getUserName());
+		return "Bearer "+jwtUtil.generateToken(authRequest.getUserName());
 	}
 
-	@GetMapping("/serviceToken")
+	@GetMapping("/transactionalToken")
 	public String generateServiceToken() {
 		System.out.println("before service call");
-
+		System.out.println("UserController -- 1");
 		String userName = null;
 
 		Optional<Temporary> temp = tempRepository.findById(101);
@@ -85,13 +90,22 @@ public class UserController {
 		}
 		System.out.println("before service call");
 
-		return jwtUtil.generateToken(userName);
+		return "Transac "+jwtUtil.generateToken(userName);
 
 	}
 
 	@GetMapping("/validateSToken")
-	public String validateServiceToken() {
-		return "Service Token validate properly";
+	public String validateServiceToken(@RequestHeader HttpHeaders headers) {
+		System.out.println("UserController -- 3");
+		String username = null;
+
+		Optional<Temporary> temp = tempRepository.findById(101);
+
+		if (temp.isPresent()) {
+			username = temp.get().getTempUser();
+		}
+		System.out.println(" "+headers.get("Authorization")+" "+username);
+		return username;
 	}
 	
 }
