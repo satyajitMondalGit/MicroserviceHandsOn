@@ -3,11 +3,13 @@ package com.ibm.cart.management.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,7 +32,7 @@ public class CartController {
 	}
 	
 	@PostMapping("/addItem")
-	public List<CartDTO> addItemToCart(@RequestBody CartDTO  dto) {
+	public List<CartDTO> addItemToCart(@RequestHeader HttpHeaders headers, @RequestBody CartDTO  dto) {
 		
 		List<CartDTO> list_dto = cartService.addItemToOrder(dto);
 		
@@ -85,9 +87,9 @@ public class CartController {
 	
 	
 	@GetMapping("/placeOrder")
-	public String placeOrder() {
+	public String placeOrder(@RequestHeader HttpHeaders headers) {
 	
-		boolean status = cartService.placeOrder();
+		boolean status = cartService.placeOrder(headers);
 		if(status) {
 			return "order is successfully placed";
 		} 

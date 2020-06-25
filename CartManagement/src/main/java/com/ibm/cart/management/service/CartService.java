@@ -5,19 +5,21 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import com.ibm.cart.management.config.OrderFeignRepository;
-import com.ibm.cart.management.config.UserFeignRepository;
+//import com.ibm.cart.management.config.UserFeignRepository;
 import com.ibm.cart.management.dto.CartDTO;
 import com.ibm.cart.management.dto.CartMapper;
+import com.ibm.cart.management.feign.OrderFeignRepository;
 import com.ibm.cart.management.model.Cart;
 import com.ibm.cart.management.repository.CartRepository;
 
 @Service
 public class CartService {
 	
-	private String username = "user";
+	private String username = "guest";
 	
 	@Autowired
 	private CartRepository cartRepo;
@@ -25,8 +27,7 @@ public class CartService {
 	@Autowired
 	private OrderFeignRepository orderFeignRepo;
 	
-	@Autowired
-	private UserFeignRepository userFeignRepo;
+	
 	
 	public List<CartDTO> addItemToOrder(CartDTO dto) {
 		
@@ -58,6 +59,7 @@ public class CartService {
 	}
 
 	public List<CartDTO> deleteItemFromOrder(CartDTO dto) {
+		
 		String username = dto.getUserName();
 		List<Cart> list_cart = new ArrayList<Cart>();
 		List<CartDTO> list_dto = new ArrayList<CartDTO>();
@@ -84,7 +86,8 @@ public class CartService {
 		return list_dto;
 	}
 
-	public boolean completeOrder(String username) {
+	public boolean completeOrder() {
+		username = getuserName();
 		boolean isSucces = false;
 		List<Cart> list_cart = new ArrayList<Cart>();
 		
@@ -109,6 +112,7 @@ public class CartService {
 	}
 
 	public List<CartDTO> viewCartforUser() {
+		username = getuserName();
 		List<CartDTO> list_cdto = new ArrayList<CartDTO>();
 		if(username !=null) {
 			List<Cart> list_cart = cartRepo.findByUserName(username);
@@ -127,6 +131,7 @@ public class CartService {
 	
 
 	public List<CartDTO> deleteProductByName(String pname) {
+		username = getuserName();
 		List<CartDTO> list_cdto = new ArrayList<CartDTO>();
 		if(username !=null && pname !=null) {
 			List<Cart> list_cartToDelete= cartRepo.findByUserNameandProductName(username, pname);
@@ -141,7 +146,8 @@ public class CartService {
 		return list_cdto;
 	}
 
-	public boolean placeOrder() {
+	public boolean placeOrder(HttpHeaders headers) {
+		username = getuserName();
 		boolean status= false;
 		List<CartDTO> list_cdto = new ArrayList<CartDTO>();
 		if(username !=null) {
@@ -158,7 +164,7 @@ public class CartService {
 		
 		if(list_cdto !=null && list_cdto.size()>0 ) {
 		
-			status = orderFeignRepo.addOrder(list_cdto);
+			status = orderFeignRepo.addOrder(headers, list_cdto);
 			
 		}
 		
@@ -167,5 +173,21 @@ public class CartService {
 	}
 
 
+	private String getuserName() {
+		String username = "guest1";
+		
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (principal instanceof UserDetails) {
+			 username = ((UserDetails)principal).getUsername();
+			System.out.println("12"+username);
+		} else {
+			 username = principal.toString();
+			
+			System.out.println("111"+username);
+		}
+		
+		
+		return username;
+	}
 
 }

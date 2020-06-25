@@ -91,7 +91,7 @@ public class AuthServerConfigurations extends WebSecurityConfigurerAdapter imple
 	@Override
 	public void configure(ClientDetailsServiceConfigurer client) throws Exception {
 
-		client.inMemory().withClient("web").secret(passwordEncoder.encode("webpass")).scopes("READ", "WRITE")
+		client.inMemory().withClient("store").secret(passwordEncoder.encode("storepass")).scopes("READ", "WRITE")
 				.authorizedGrantTypes("password", "refresh_token").accessTokenValiditySeconds(3600).refreshTokenValiditySeconds(36000);
 
 	}

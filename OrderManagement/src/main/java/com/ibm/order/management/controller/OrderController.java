@@ -3,11 +3,13 @@ package com.ibm.order.management.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,16 +30,16 @@ public class OrderController {
 	}
 	
 	@PostMapping("/addOrder")
-	public boolean addOrder(@RequestBody List<CartDTO> listCartDto) {
+	public boolean addOrder(@RequestHeader HttpHeaders headers, @RequestBody List<CartDTO> listCartDto) {
 		
 		boolean success = orderService.addOrder(listCartDto);
 		return success;
 	}
 	
-	@PostMapping("/viewOrder")
-	public List<CartDTO> viewOrder(@RequestBody String username) {
+	@GetMapping("/viewOrder")
+	public List<CartDTO> viewOrder() {
 		
-		List<CartDTO> listCartDto = orderService.viewOrder(username);
+		List<CartDTO> listCartDto = orderService.viewOrder();
 		return listCartDto;
 	}
 	

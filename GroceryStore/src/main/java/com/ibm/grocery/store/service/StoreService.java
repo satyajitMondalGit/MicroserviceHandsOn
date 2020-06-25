@@ -4,19 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import com.ibm.grocery.store.config.CartFeignRepository;
 import com.ibm.grocery.store.dto.CartDTO;
 import com.ibm.grocery.store.dto.ProductDTO;
 import com.ibm.grocery.store.dto.ProductMapper;
+import com.ibm.grocery.store.feign.CartFeignRepository;
 import com.ibm.grocery.store.model.Product;
 import com.ibm.grocery.store.repository.ProductRepository;
 
 @Service
 public class StoreService {
 	
-	private String username = "user";
+	private String username = "guest";
+	
+
 	
 	@Autowired
 	private CartFeignRepository cartFeignRepo;
@@ -24,6 +29,7 @@ public class StoreService {
 	@Autowired
 	private ProductRepository productRepo;
 
+	
 	public boolean addItem(List<ProductDTO> list_dto) {
 		boolean status= false;
 		
@@ -56,6 +62,8 @@ public class StoreService {
 				}
 			}
 		}
+
+		
 		return list_pdto;
 	}
 
@@ -79,7 +87,8 @@ public class StoreService {
 	
 
 
-	public boolean addToCart(String pname) {
+	public boolean addToCart(HttpHeaders headers, String pname) {
+		username = getuserName();
 		CartDTO cdto = new CartDTO();
 		if(pname !=null) {
 			Product p = productRepo.findByName(pname);
@@ -98,7 +107,7 @@ public class StoreService {
 		}
 		
 		
-		List<CartDTO> list_cdto = cartFeignRepo.addItemToCart(cdto);
+		List<CartDTO> list_cdto = cartFeignRepo.addItemToCart(headers, cdto);
 		if(list_cdto !=null && list_cdto.size()>0) {
 			return true;
 		}
@@ -109,6 +118,23 @@ public class StoreService {
 	private double caculatePrice(Product p) {
 		double price = p.getPrice() * ((100-p.getDiscount())/100);
 		return price;
+	}
+	
+	private String getuserName() {
+		String username = "guest1";
+		
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (principal instanceof UserDetails) {
+			 username = ((UserDetails)principal).getUsername();
+			System.out.println("12"+username);
+		} else {
+			 username = principal.toString();
+			
+			System.out.println("111"+username);
+		}
+		
+		
+		return username;
 	}
 
 }

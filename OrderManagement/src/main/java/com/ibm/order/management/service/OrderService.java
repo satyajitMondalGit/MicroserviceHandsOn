@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.ibm.order.management.dto.CartDTO;
@@ -14,7 +16,7 @@ import com.ibm.order.management.repository.ProductRequestedRepository;
 @Service
 public class OrderService {
 	
-	private String username = "user";
+	private String username = "guast";
 	
 	@Autowired
 	private ProductRequestedRepository productRequestedRepository;
@@ -36,7 +38,8 @@ public class OrderService {
 		return status;
 	}
 
-	public List<CartDTO> viewOrder(String username) {
+	public List<CartDTO> viewOrder() {
+		username = getuserName();
 		List<CartDTO> list_CartDto = new ArrayList<CartDTO>();
 		if(username !=null && !"".equalsIgnoreCase(username)) {
 			List<ProductRequested> list_order = productRequestedRepository.findByUserName(username);
@@ -56,6 +59,7 @@ public class OrderService {
 	}
 
 	public List<CartDTO> viewOrderforUser() {
+		username = getuserName();
 
 		List<CartDTO> list_CartDto = new ArrayList<CartDTO>();
 		if(username !=null && !"".equalsIgnoreCase(username)) {
@@ -79,6 +83,7 @@ public class OrderService {
 	}
 
 	public List<CartDTO> deliverProductByName(String pname) {
+		username = getuserName();
 		if(username !=null && pname!=null) {
 			List<ProductRequested> list_order = productRequestedRepository.findByUserNameandProductName(username, pname);
 		
@@ -97,6 +102,22 @@ public class OrderService {
 	}
 
 
+	private String getuserName() {
+		String username = "guest1";
+		
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (principal instanceof UserDetails) {
+			 username = ((UserDetails)principal).getUsername();
+			System.out.println("12"+username);
+		} else {
+			 username = principal.toString();
+			
+			System.out.println("111"+username);
+		}
+		
+		
+		return username;
+	}
 
 
 }

@@ -3,5 +3,5 @@ server:
   
 security:  oauth2:    resource:      jwt:        key-value: -----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvf0By4V2N30NGQMjgfkP7JMaHl5vxcUgT1J3uSwrMUgnXkmAZoxSCyOhw4dc3OSmGw7WPP31OqH9Oz1PijvDFYBwi7VVoRRumq5eHVzxwHYgPB/0to+D4baOBxrjk+EKCLZpEpof4yf8Qy0jtVjYgUzEWUOiZecXoop/Q9HrBqrqw4Hj8Ln/U9T38CS7V0yVHZTVWgBRcvnA5nJMdSqjchz7cGVRVycld9FbN2fuJ+Qx7mtj62soe4gQi2C8pL85PynBlXdYHeZCZGwARgGjOb0V2j2PSHwCq1V9qHd/M+rTPiRZbu0DTig9gf2BWd7NTkqDCcMqlomMYi4fNUdDsQIDAQAB-----END PUBLIC KEY-----
       token-info-uri: http://localhost:7777/oauth/check_token
-    client:      client-id: web
-      client-secret: webpass
+    client:      client-id: store
+      client-secret: storepass

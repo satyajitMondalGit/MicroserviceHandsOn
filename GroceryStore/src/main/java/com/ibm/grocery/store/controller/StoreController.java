@@ -3,11 +3,13 @@ package com.ibm.grocery.store.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -74,12 +76,12 @@ public class StoreController {
 	}
 	
 	@GetMapping("/addToCartByName/{pname}")
-	public String addToCartByName(@PathVariable(value = "pname") String pname){
+	public String addToCartByName(@RequestHeader HttpHeaders headers, @PathVariable(value = "pname") String pname){
 		if(pname !=null) {
 			pname = pname.toLowerCase();
 		 }
 		
-		boolean status = storeService.addToCart(pname); 
+		boolean status = storeService.addToCart(headers ,pname); 
 		
 		if(status) {
 		
