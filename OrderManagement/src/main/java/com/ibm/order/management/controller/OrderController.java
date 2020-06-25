@@ -68,7 +68,7 @@ public class OrderController {
 		if(listDto !=null && listDto.size()>0) {
 			return "[ "+pname+" ] is delivered successfully.";
 		}
-		return "Your all placed order are delivered successfully. Your transaction token is also expired. For new order please generate a new Transaction token";
+		return "Your all placed order are delivered successfully. Incase, your token is expired please generate new token using refresh token. !! Please try another order !!";
 	}
 	
 }
