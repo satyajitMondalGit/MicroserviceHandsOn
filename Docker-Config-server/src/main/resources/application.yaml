@@ -1,0 +1,28 @@
+server:
+  port: 9091
+  
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/satyajitMondalGit/ConvertCurrencyPropertiesGit.git
+  
+  application:
+    name: Config-Server
+    
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${random.int}
+    lease-expiration-duration-in-seconds: 2
+    lease-renewal-interval-in-seconds: 1
+  client:
+      service-url:
+       defaultZone: http://192.168.99.100:9090/eureka
+  
