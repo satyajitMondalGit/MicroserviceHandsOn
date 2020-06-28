@@ -107,7 +107,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
-		<finalName>conversion-factor</finalName>
+		<finalName>conversion-factor1</finalName>
 	</build>
 
 

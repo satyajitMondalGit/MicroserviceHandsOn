@@ -1,7 +1,7 @@
 spring:
   application:
     name: Conversion-Factor
-      cloud:    config:      uri:      - http://localhost:9091
+      cloud:    config:      uri:      - http://172.30.65.144:9091/
 
 management:
   endpoints:

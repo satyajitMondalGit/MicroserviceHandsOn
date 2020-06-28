@@ -13,7 +13,7 @@ import com.ibm.convertCurrency.config.FeignRepository;
 import com.ibm.convertCurrency.service.ConvertCurrencyService;
 
 
-@RequestMapping("convertCurrency")
+//@RequestMapping("convertCurrency")
 @RestController
 public class ConvertCurrencyController {
 
@@ -23,7 +23,11 @@ public class ConvertCurrencyController {
 	@Autowired
 	ConvertCurrencyService convertCurrencyService;
 	
-	
+	@GetMapping("/")
+	public String greetings() {
+		
+		return "welcome to Currency Conversion App";
+	}
 	
 	
 	@GetMapping("/{countrycode}/{amount}")

@@ -76,7 +76,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
-		<finalName>config-server</finalName>
+		<finalName>config-server1</finalName>
 	</build>
 
 </project>

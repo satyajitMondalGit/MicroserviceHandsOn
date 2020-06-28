@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 
-@FeignClient(name = "Conversion-Factor", url = "http://localhost:8081/factor" )
+@FeignClient(name = "Conversion-Factor", url = "http://172.30.24.144:8081/factor" )
 
 //@FeignClient(name = "Conversion-Factor")
 //@RibbonClient(name = "Conversion-Factor")

@@ -5,7 +5,7 @@ spring:
   cloud:
     config:
       uri:
-      - http://localhost:9091    
+      - http://172.30.65.144:9091/    
       
 management:
   endpoints:
